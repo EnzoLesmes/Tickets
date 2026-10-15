@@ -23,7 +23,7 @@ def assign_ticket(ticket_id: int, user_id: int | None) -> dict[str, object]:
 
 
 def list_users() -> list[dict[str, object]]:
-    return FIXED_USERS
+    return [dict(user) for user in FIXED_USERS]
 
 
 def get_ticket_for_suggestion(ticket_id: int) -> dict[str, object]:
