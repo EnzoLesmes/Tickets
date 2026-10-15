@@ -1,8 +1,8 @@
 """Ticket business operations and ticket and user existence validation."""
 
 FIXED_USERS: list[dict[str, object]] = [
-    {"id": 1, "name": "Juan Perez"},
-    {"id": 2, "name": "Ana Garcia"},
+    {"id": 1, "name": "Juan Pérez"},
+    {"id": 2, "name": "Ana García"},
 ]
 
 
@@ -23,7 +23,7 @@ def assign_ticket(ticket_id: int, user_id: int | None) -> dict[str, object]:
 
 
 def list_users() -> list[dict[str, object]]:
-    raise NotImplementedError
+    return FIXED_USERS
 
 
 def get_ticket_for_suggestion(ticket_id: int) -> dict[str, object]:
