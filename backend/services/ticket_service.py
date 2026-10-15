@@ -1,6 +1,9 @@
 """Ticket business operations and ticket and user existence validation."""
 
 from backend.repositories.ticket_repository import create_ticket as save_ticket
+from backend.repositories.ticket_repository import (
+    list_tickets as load_tickets,
+)
 
 FIXED_USERS: list[dict[str, object]] = [
     {"id": 1, "name": "Juan Pérez"},
@@ -25,7 +28,7 @@ def create_ticket(title: str, description: str) -> dict[str, object]:
 
 
 def list_tickets() -> list[dict[str, object]]:
-    raise NotImplementedError
+    return load_tickets()
 
 
 def change_ticket_status(ticket_id: int, status: str) -> dict[str, object]:

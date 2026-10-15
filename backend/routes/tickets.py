@@ -1,9 +1,12 @@
-"""HTTP route signatures for the ticket system."""
+"""HTTP routes for the ticket system."""
 
 from fastapi import APIRouter
 
 from backend.schemas import TicketCreate, TicketResponse
-from backend.services.ticket_service import create_ticket as create_ticket_service
+from backend.services.ticket_service import (
+    create_ticket as create_ticket_service,
+    list_tickets as list_tickets_service,
+)
 
 router = APIRouter()
 
@@ -13,8 +16,9 @@ def create_ticket(ticket: TicketCreate) -> dict[str, object]:
     return create_ticket_service(ticket.title, ticket.description)
 
 
+@router.get("/tickets", response_model=list[TicketResponse])
 def list_tickets() -> list[dict[str, object]]:
-    raise NotImplementedError
+    return list_tickets_service()
 
 
 def change_ticket_status(ticket_id: int, status: str) -> dict[str, object]:

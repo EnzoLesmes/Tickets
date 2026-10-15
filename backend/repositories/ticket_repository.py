@@ -1,5 +1,6 @@
 """In-memory persistence interface for ticket data."""
 
+from copy import deepcopy
 from datetime import datetime, timezone
 
 _tickets: list[dict[str, object]] = []
@@ -22,7 +23,7 @@ def create_ticket(title: str, description: str) -> dict[str, object]:
     }
     _tickets.append(ticket)
     _next_ticket_id += 1
-    return ticket
+    return deepcopy(ticket)
 
 
 def clear_tickets() -> None:
@@ -33,7 +34,7 @@ def clear_tickets() -> None:
 
 
 def list_tickets() -> list[dict[str, object]]:
-    raise NotImplementedError
+    return deepcopy(_tickets)
 
 
 def get_ticket(ticket_id: int) -> dict[str, object] | None:

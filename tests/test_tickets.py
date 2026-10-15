@@ -4,7 +4,11 @@ import pytest
 from fastapi.testclient import TestClient
 
 from backend.main import app
-from backend.repositories.ticket_repository import clear_tickets
+from backend.repositories.ticket_repository import (
+    clear_tickets,
+    create_ticket as save_ticket,
+    list_tickets as load_tickets,
+)
 
 client = TestClient(app)
 
@@ -106,3 +110,51 @@ def test_create_ticket_with_invalid_type_returns_unprocessable_entity():
 
     assert response.status_code == 422
     assert isinstance(response.json()["detail"], list)
+
+
+def test_list_tickets_returns_empty_list_when_no_tickets_exist():
+    response = client.get("/api/tickets")
+
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_list_tickets_returns_tickets_in_creation_order():
+    first_response = client.post(
+        "/api/tickets",
+        json={"title": "Primero", "description": "Descripción uno"},
+    )
+    second_response = client.post(
+        "/api/tickets",
+        json={"title": "Segundo", "description": "Descripción dos"},
+    )
+
+    response = client.get("/api/tickets")
+
+    assert response.status_code == 200
+    assert response.json() == [
+        first_response.json(),
+        second_response.json(),
+    ]
+
+
+def test_repository_returns_copies_without_exposing_saved_tickets():
+    created_ticket = save_ticket("Título", "Descripción")
+    created_ticket["title"] = "Título modificado"
+    returned_tickets = load_tickets()
+    returned_tickets.append({"id": 2})
+    returned_tickets[0]["description"] = "Descripción modificada"
+
+    saved_tickets = load_tickets()
+
+    assert saved_tickets == [
+        {
+            "id": 1,
+            "title": "Título",
+            "description": "Descripción",
+            "status": "open",
+            "assignee": None,
+            "created_at": saved_tickets[0]["created_at"],
+            "updated_at": saved_tickets[0]["updated_at"],
+        }
+    ]
