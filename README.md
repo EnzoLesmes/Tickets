@@ -20,7 +20,7 @@ Endpoints del contrato (`API_CONTRACT.md`):
 | Endpoint | Estado |
 |---|---|
 | `GET /api/users` | Listo |
-| `POST /api/tickets` | Pendiente |
+| `POST /api/tickets` | Listo |
 | `GET /api/tickets` | Pendiente |
 | `PATCH /api/tickets/{ticket_id}/status` | Pendiente |
 | `PATCH /api/tickets/{ticket_id}/assignee` | Pendiente |
@@ -46,6 +46,7 @@ La API queda en `http://localhost:8000`, y la documentación automática en
 
     backend/
       main.py            punto de entrada de FastAPI
+      schemas.py         esquemas de entrada y salida de la API
       routes/            capa HTTP: recibe pedidos y responde
       services/          lógica de negocio y validaciones
       repositories/      acceso a los datos

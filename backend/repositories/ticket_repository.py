@@ -1,8 +1,35 @@
-"""Stable persistence interface for ticket data."""
+"""In-memory persistence interface for ticket data."""
+
+from datetime import datetime, timezone
+
+_tickets: list[dict[str, object]] = []
+_next_ticket_id = 1
 
 
 def create_ticket(title: str, description: str) -> dict[str, object]:
-    raise NotImplementedError
+    global _next_ticket_id
+
+    timestamp = datetime.now(timezone.utc).replace(microsecond=0).isoformat()
+    timestamp = timestamp.replace("+00:00", "Z")
+    ticket = {
+        "id": _next_ticket_id,
+        "title": title,
+        "description": description,
+        "status": "open",
+        "assignee": None,
+        "created_at": timestamp,
+        "updated_at": timestamp,
+    }
+    _tickets.append(ticket)
+    _next_ticket_id += 1
+    return ticket
+
+
+def clear_tickets() -> None:
+    global _next_ticket_id
+
+    _tickets.clear()
+    _next_ticket_id = 1
 
 
 def list_tickets() -> list[dict[str, object]]:
