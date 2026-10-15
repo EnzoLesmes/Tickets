@@ -21,7 +21,7 @@ Endpoints del contrato (`API_CONTRACT.md`):
 |---|---|
 | `GET /api/users` | Listo |
 | `POST /api/tickets` | Listo |
-| `GET /api/tickets` | Pendiente |
+| `GET /api/tickets` | Listo |
 | `PATCH /api/tickets/{ticket_id}/status` | Pendiente |
 | `PATCH /api/tickets/{ticket_id}/assignee` | Pendiente |
 | `POST /api/tickets/{ticket_id}/suggestion` | Pendiente |
